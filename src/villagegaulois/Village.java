@@ -65,18 +65,22 @@ public class Village {
 		}
 		
 		private String afficherMarche() {
-			String text = "";
+			StringBuilder bld = new StringBuilder();
+			
 			int nombreEtalOccupe = 0;
 			for (int i = 0; i< etals.length ; i++) {
 				if (etals[i].isEtalOccupe()) {
-					text += etals[i].afficherEtal() + "\n";
+					bld.append(etals[i].afficherEtal());
+					
 					nombreEtalOccupe++;
 				}
 				
 			}
 			int nbEtalVide = etals.length - nombreEtalOccupe;
-			text += "Il reste " + nbEtalVide + " étal non utilisés dans le marché.\n";
-			return text;
+			String text = "Il reste " + nbEtalVide + " étal non utilisés dans le marché.\n";
+			
+			bld.append(text);
+			return bld.toString();
 		}
 	}
 	
