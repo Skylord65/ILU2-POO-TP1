@@ -8,12 +8,78 @@ public class Village {
 	private Chef chef;
 	private Gaulois[] villageois;
 	private int nbVillageois = 0;
+	private Marche marche;
 
-	public Village(String nom, int nbVillageoisMaximum) {
+	public Village(String nom, int nbVillageoisMaximum, Marche marche,int nbEtal) {
+		this.marche = new Marche(nbEtal);
 		this.nom = nom;
 		villageois = new Gaulois[nbVillageoisMaximum];
 	}
-
+	
+	private class Marche {
+		Etal[] etals;
+		private Marche(int nbetal) {
+			this.etals = new Etal[nbetal];
+			for (int i = 0; i<nbetal; i++) {
+				etals[i] = new Etal();
+			}
+		}
+		
+		private void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
+			etals[indiceEtal].occuperEtal(vendeur, produit, nbProduit);
+		}
+		
+		private int trouverEtatLibre() {
+			int indiceEtalLibre = -1;
+			for ( int i = 0; i<etals.length; i++) {
+				if (!etals[i].isEtalOccupe()) {
+					indiceEtalLibre = i;
+				}
+			}
+			return indiceEtalLibre;
+		}
+		
+		private Etal[] trouverEtals(String produit) {
+			int nombreEtalContenantProduit = 0;
+			for (int i = 0; i<etals.length; i++) {
+				if (etals[i].contientProduit(produit)) {
+					nombreEtalContenantProduit++;
+				}
+			}
+			Etal[] etalContenantProduit = new Etal[nombreEtalContenantProduit];
+			for (int i = 0; i<etals.length; i++) {
+				if (etals[i].contientProduit(produit)) {
+					etalContenantProduit[i] = etals[i];
+				}
+			}
+			return etalContenantProduit;
+		}
+		
+		private Etal trouverVendeur(Gaulois gaulois) {
+			for (int i = 0; i<etals.length; i++) {
+				if(etals[i].getVendeur()==gaulois) {
+					return etals[i];
+				}
+			}
+			return null;
+		}
+		
+		private String afficherMarche() {
+			String text = "";
+			int nombreEtalOccupe = 0;
+			for (int i = 0; i< etals.length ; i++) {
+				if (etals[i].isEtalOccupe()) {
+					text += etals[i].afficherEtal() + "\n";
+					nombreEtalOccupe++;
+				}
+				
+			}
+			int nbEtalVide = etals.length - nombreEtalOccupe;
+			text += "Il reste " + nbEtalVide + " étal non utilisés dans le marché.\n";
+			return text;
+		}
+	}
+	
 	public String getNom() {
 		return nom;
 	}
