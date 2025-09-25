@@ -10,7 +10,7 @@ public class Village {
 	private int nbVillageois = 0;
 	private Marche marche;
 
-	public Village(String nom, int nbVillageoisMaximum, Marche marche,int nbEtal) {
+	public Village(String nom, int nbVillageoisMaximum,int nbEtal) {
 		this.marche = new Marche(nbEtal);
 		this.nom = nom;
 		villageois = new Gaulois[nbVillageoisMaximum];
